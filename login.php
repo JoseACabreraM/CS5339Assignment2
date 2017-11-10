@@ -16,7 +16,8 @@ if (isset($_SESSION['uName'])){
     $uName = $_SESSION['uName'];
     print "
         <div align='center'>
-            Already logged in as: $uName
+            Already logged in as: $uName             
+            <br><br>
             <form action='logout.php' method='post' >   
                 <input type='submit' name='Logout' value='Logout'> 
             </form>
@@ -45,7 +46,7 @@ if (isset($_SESSION['uName'])){
 }
 
 print "    
-       <div>
+       <div align='center'>
             <br>
             <form action='mainpage.php'>   
                 <button> Main Page </button> 

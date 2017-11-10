@@ -11,14 +11,6 @@ if (isset($_POST['uName']) && isset($_POST['pWord'])) {
     $uName = mysqli_real_escape_string($connection, $_POST['uName']);
     $pWord = mysqli_real_escape_string($connection, $_POST['pWord']);
     if (existingUser($connection, $uName) && verifyUser($connection, $uName, $pWord)) {
-        /*
-        printUserData($connection, $uName);
-        print "
-            <form action='/mainpage.php' target=\"_blank\" method=\"POST\">
-                <input type=\"submit\" name = \"sStatus\" value=\"Submit\">
-            </form>
-        ";
-        */
         header("Location:/mainpage.php");
         exit();
     } else {
@@ -26,14 +18,8 @@ if (isset($_POST['uName']) && isset($_POST['pWord'])) {
         exit();
     }
 } else {
-    header("Location:/login.html?error=1");
+    header("Location:/login.php?error=1");
     exit();
-}
-
-function addUser($connection, $fName, $lName, $uName, $spWord, $uType) {
-    $query = "INSERT INTO userData VALUES('$fName', '$lName', '$uName', '$spWord', '$uType')";
-    $result = $connection->query($query);
-    if (!$result) die($connection->error);
 }
 
 function existingUser($connection, $uName){
@@ -64,8 +50,6 @@ function verifyUser($connection, $uName, $pWord){
             $_SESSION['fName'] = $row[0];
             $_SESSION['lName'] = $row[1];
             $_SESSION['uType'] = $row[4];
-            $_SESSION['timeout'] = time();
-            ini_set('session.gc_maxlifetime', 15);
             return true;
         } else {
             return false;

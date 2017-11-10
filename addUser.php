@@ -16,15 +16,34 @@ if(isset($_POST['submission'])){
         $pWord = mysqli_real_escape_string($connection, $_POST['pWord']);
         $uType = mysqli_real_escape_string($connection, $_POST['uType']);
         $salt = "e4djuki9";
-        $spWord = hash('ripemd128', "$salt$uName$pWord");
         if (!existingUser($connection, $uName)){
+            print " 
+                <!DOCTYPE html>
+                <html lang='en'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <title>Title</title>
+                </head>
+                <body style='background-color:lightgray;'>
+                <div align='center'><h1> Succesfully Added User! </h1></div>
+                <div align='center'>
+                    <br>
+                    <form action='mainpage.php'>   
+                    <button> Main Page </button> 
+                    </form>
+                </div>
+            "
+            ;
             if ($uType == "nUser"){
-                print "Added normal user: $uName";
-                addUser($connection, $fName, $lName, $uName, $spWord, 1);
+                addUser($connection, $fName, $lName, $uName, $pWord, 1, $salt);
+                //print "Added normal user: $uName";
+
             } else {
-                print "Added admin: $uName";
-                addUser($connection, $fName, $lName, $uName, $spWord, 0);
+                addUser($connection, $fName, $lName, $uName, $pWord, 0, $salt);
+                //print "Added admin: $uName";
+
             }
+
         } else {
             header("Location:/addUser.php?error=2");
             exit();
@@ -34,7 +53,6 @@ if(isset($_POST['submission'])){
         exit();
     }
 } else {
-
     if (isset($_SESSION['uName']) && $_SESSION['uType'] == 0){
             print " 
                 <!DOCTYPE html>
@@ -84,7 +102,7 @@ if(isset($_POST['submission'])){
     } else {
         print "
             <div align='center'>
-                Not authorized to access this webpage! 1
+                Not authorized to access this webpage! 
             </div>
          ";
     }
@@ -93,6 +111,7 @@ if(isset($_POST['submission'])){
             <br>
             <form action='mainpage.php'>   
             <button> Main Page </button> 
+            </form>
         </div>
         
         </form>
@@ -101,7 +120,8 @@ if(isset($_POST['submission'])){
     ";
 }
 
-function addUser($connection, $fName, $lName, $uName, $spWord, $uType) {
+function addUser($connection, $fName, $lName, $uName, $pWord, $uType, $salt) {
+    $spWord = hash('ripemd128', "$salt$uName$pWord");
     $query = "INSERT INTO userData VALUES('$fName', '$lName', '$uName', '$spWord', '$uType')";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
