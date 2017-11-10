@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color:lightgray;">
+<div align="center"><h1> Register User </h1></div>
+<div align="center">
+    <form action='/addUser.php ' target="_blank" method="POST">
+        First name<br>
+        <input type="text" name="fName">
+        <br> Last name<br>
+        <input type="text" name="lName">
+        <br> Username<br>
+        <input type="text" name="uName">
+        <br> Password<br>
+        <input type="password" name="pWord"> <br><br>
+        <input type="radio" name="uType" value="nUser">Normal User
+        <input type="radio" name="uType" value="admin">Admin
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
