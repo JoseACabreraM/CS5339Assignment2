@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('America/Denver');
+
 $db_hostname = 'localhost';
 $db_database = 'users';
 $db_username = 'JoseACabreraM';
@@ -22,7 +24,8 @@ if (isset($_POST['uName']) && isset($_POST['pWord'])) {
     exit();
 }
 
-function existingUser($connection, $uName){
+function existingUser($connection, $uName)
+{
     $query = "SELECT * FROM userdata WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -35,7 +38,9 @@ function existingUser($connection, $uName){
     return false;
 }
 
-function verifyUser($connection, $uName, $pWord){
+function verifyUser($connection, $uName, $pWord)
+{
+    $time = date("Y-m-d H:i:s");
     $query = "SELECT * FROM userdata WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -44,21 +49,21 @@ function verifyUser($connection, $uName, $pWord){
         $row = $result->fetch_array(MYSQLI_NUM);
         $result->close();
         $spWord = $row[3];
-        if ($spWord == hash('ripemd128', "$salt$uName$pWord")){
+        if ($spWord == hash('ripemd128', "$salt$uName$pWord")) {
+            $query = "UPDATE userData SET lastLogin='$time' WHERE username= '$uName'";
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
             session_start();
             $_SESSION['uName'] = $uName;
             $_SESSION['fName'] = $row[0];
             $_SESSION['lName'] = $row[1];
-            $_SESSION['uType'] = $row[4];
+            $_SESSION['aTime'] = $row[4];
+            $_SESSION['lTime'] = $row[5];
+            $_SESSION['uType'] = $row[6];
             return true;
         } else {
             return false;
         }
     }
     return false;
-}
-
-function printUserData($connection, $uName){
-    print "<br>"."Username:".$_SESSION['uName']."<br>";
-    print "<br>".$_SESSION['fName']." ".$_SESSION['lName']."<br>";
 }

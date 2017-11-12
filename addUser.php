@@ -1,4 +1,4 @@
-<?php // Add User To Database
+<?php
 
 session_start();
 
@@ -8,7 +8,7 @@ $db_username = 'JoseACabreraM';
 $db_password = 'Digamma1';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
-if(isset($_POST['submission'])){
+if (isset($_POST['submission'])) {
     if (isset($_POST['fName']) && isset($_POST['lName']) && isset($_POST['uName']) && isset($_POST['pWord']) && isset($_POST['uType'])) {
         $fName = mysqli_real_escape_string($connection, $_POST['fName']);
         $lName = mysqli_real_escape_string($connection, $_POST['lName']);
@@ -16,7 +16,7 @@ if(isset($_POST['submission'])){
         $pWord = mysqli_real_escape_string($connection, $_POST['pWord']);
         $uType = mysqli_real_escape_string($connection, $_POST['uType']);
         $salt = "e4djuki9";
-        if (!existingUser($connection, $uName)){
+        if (!existingUser($connection, $uName)) {
             print " 
                 <!DOCTYPE html>
                 <html lang='en'>
@@ -32,18 +32,12 @@ if(isset($_POST['submission'])){
                     <button> Main Page </button> 
                     </form>
                 </div>
-            "
-            ;
-            if ($uType == "nUser"){
+            ";
+            if ($uType == "nUser") {
                 addUser($connection, $fName, $lName, $uName, $pWord, 1, $salt);
-                //print "Added normal user: $uName";
-
             } else {
                 addUser($connection, $fName, $lName, $uName, $pWord, 0, $salt);
-                //print "Added admin: $uName";
-
             }
-
         } else {
             header("Location:/addUser.php?error=2");
             exit();
@@ -53,8 +47,8 @@ if(isset($_POST['submission'])){
         exit();
     }
 } else {
-    if (isset($_SESSION['uName']) && $_SESSION['uType'] == 0){
-            print " 
+    if (isset($_SESSION['uName']) && $_SESSION['uType'] == 0) {
+        print " 
                 <!DOCTYPE html>
                 <html lang='en'>
                 <head>
@@ -82,23 +76,23 @@ if(isset($_POST['submission'])){
                 </div>
             ";
 
-            if (isset($_GET['error'])) {
-                if ($_GET['error'] == 1) {
-                    print "
+        if (isset($_GET['error'])) {
+            if ($_GET['error'] == 1) {
+                print "
                         <br>
                         <div align='center'>
                             Missing fields!
                         </div>
                     ";
-                } else {
-                    print "
+            } else {
+                print "
                         <br>
                         <div align='center'>
                             Username already in use!
                         </div>
                     ";
-                }
             }
+        }
     } else {
         print "
             <div align='center'>
@@ -120,21 +114,23 @@ if(isset($_POST['submission'])){
     ";
 }
 
-function addUser($connection, $fName, $lName, $uName, $pWord, $uType, $salt) {
+function addUser($connection, $fName, $lName, $uName, $pWord, $uType, $salt)
+{
     $spWord = hash('ripemd128', "$salt$uName$pWord");
     $query = "INSERT INTO userData VALUES('$fName', '$lName', '$uName', '$spWord', '$uType')";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
 }
 
-function existingUser($connection, $uName){
+function existingUser($connection, $uName)
+{
     $query = "SELECT * FROM userdata WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
     elseif ($result->num_rows) {
         $row = $result->fetch_array(MYSQLI_NUM);
         $result->close();
-        echo "<br>".$row[2]." ".$uName."<br>";
+        echo "<br>" . $row[2] . " " . $uName . "<br>";
         if ($row[2] == $uName) return true;
         else return false;
     }

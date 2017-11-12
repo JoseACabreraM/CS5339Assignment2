@@ -13,7 +13,7 @@ print "
     <div>
 ";
 
-if (isset($_SESSION['uName'])){
+if (isset($_SESSION['uName'])) {
     $uName = $_SESSION['uName'];
     print "
         <div align='center'>
@@ -34,7 +34,7 @@ if (isset($_SESSION['uName'])){
         </div>
     ";
     $uType = $_SESSION['uType'];
-    if ($uType == 0){
+    if ($uType == 0) {
         print "
             <div align='center'> 
                 <form action='admin.php'>   

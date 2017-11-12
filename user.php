@@ -13,7 +13,7 @@ print "
     
 ";
 
-if (isset($_SESSION['uName'])){
+if (isset($_SESSION['uName'])) {
     $uName = $_SESSION['uName'];
     print "
         <div 
@@ -28,6 +28,7 @@ if (isset($_SESSION['uName'])){
             </form>               
         </div>
     ";
+    printUserData();
 } else {
     print "
         <div align='center'>
@@ -48,3 +49,13 @@ print "
     </html>
 ";
 
+function printUserData()
+{
+    print "
+        <div align='center'>
+            <br> First Name: " . $_SESSION['fName'] . "<br><br>
+            Last Name: " . $_SESSION['lName'] . "<br><br>
+            Account Creation Date: " . $_SESSION['aTime'] . "<br><br>
+            Last Login: " . $_SESSION['lTime'] . "<br>
+        </div>";
+}

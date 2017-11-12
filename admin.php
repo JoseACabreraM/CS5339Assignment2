@@ -4,19 +4,28 @@ session_start();
 
 print "
     <!DOCTYPE html>
-    <html lang=\"en\">
+    <html lang='en'>
     <head>
-        <meta charset=\"UTF-8\">
+        <meta charset='UTF-8'>
         <title>Admin</title>
     </head>
-    <body style=\"background-color:lightgray;\">
+    <style>
+        table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+        th, td {
+        padding: 15px;
+        }
+    </style>
+    <body style='background-color:lightgray;'>
     
 ";
 
-if (isset($_SESSION['uName'])){
+if (isset($_SESSION['uName'])) {
     $uName = $_SESSION['uName'];
     $uType = $_SESSION['uType'];
-    if ($uType == 0){
+    if ($uType == 0) {
         print "
             <div 
                 align='center'><h1> Admin </h1></div>
@@ -34,6 +43,20 @@ if (isset($_SESSION['uName'])){
                 <br>
                 <form action='addUser.php' method='post' >   
                     <input type='submit' name='addUser' value='Add User'> 
+                </form>
+            </div>
+            
+            <div align='center'>
+                <br>
+                <form action='admin.php' method='post' >   
+                    <input type='submit' name='sUsers' value='Show Registered Users'> 
+                </form>
+            </div>
+            
+            <div align='center'> 
+                <br>
+                <form action='user.php'>   
+                    <button> User Page </button> 
                 </form>
             </div>
         ";
@@ -64,3 +87,46 @@ print "
     </html>
 ";
 
+function printAllUsers()
+{
+    $db_hostname = 'localhost';
+    $db_database = 'users';
+    $db_username = 'JoseACabreraM';
+    $db_password = 'Digamma1';
+    $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
+    $query = "SELECT * FROM userData";
+    $result = $connection->query($query);
+    print " <table  style=\"width:100%\">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th> 
+                <th>Username</th>
+                <th>Account Creation</th>
+                <th>Last Login</th>
+                <th>Account Type</th>
+            </tr>
+    ";
+    $rows = $result->num_rows;
+    for ($j = 0; $j < $rows; ++$j) {
+        print '<tr style="text-align:center;">';
+        $result->data_seek($j);
+        echo '<td >' . $result->fetch_assoc()['firstName'] . '</td>';
+        $result->data_seek($j);
+        echo '<td >' . $result->fetch_assoc()['lastName'] . '</td>';
+        $result->data_seek($j);
+        echo '<td >' . $result->fetch_assoc()['username'] . '</td>';
+        $result->data_seek($j);
+        echo '<td >' . $result->fetch_assoc()['accTime'] . '</td>';
+        $result->data_seek($j);
+        echo '<td >' . $result->fetch_assoc()['lastLogin'] . '</td>';
+        $result->data_seek($j);
+        if ($result->fetch_assoc()['userType']) {
+            echo '<td > Normal </td>';
+        } else {
+            echo '<td > Administrator </td>';
+        }
+        print '</tr><br>';
+
+    }
+    print "</table>";
+}
