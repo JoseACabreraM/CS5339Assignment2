@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set('America/Denver');
 session_start();
 
 $db_hostname = 'localhost';
@@ -8,6 +9,16 @@ $db_username = 'JoseACabreraM';
 $db_password = 'Digamma1';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
+print "                
+    <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Title</title>
+        </head>
+        <body style='background-color:lightgray;'>
+";
+
 if (isset($_POST['submission'])) {
     if (isset($_POST['fName']) && isset($_POST['lName']) && isset($_POST['uName']) && isset($_POST['pWord']) && isset($_POST['uType'])) {
         $fName = mysqli_real_escape_string($connection, $_POST['fName']);
@@ -18,13 +29,6 @@ if (isset($_POST['submission'])) {
         $salt = "e4djuki9";
         if (!existingUser($connection, $uName)) {
             print " 
-                <!DOCTYPE html>
-                <html lang='en'>
-                <head>
-                    <meta charset='UTF-8'>
-                    <title>Title</title>
-                </head>
-                <body style='background-color:lightgray;'>
                 <div align='center'><h1> Succesfully Added User! </h1></div>
                 <div align='center'>
                     <br>
@@ -116,8 +120,9 @@ if (isset($_POST['submission'])) {
 
 function addUser($connection, $fName, $lName, $uName, $pWord, $uType, $salt)
 {
+    $time = date("Y-m-d H:i:s");
     $spWord = hash('ripemd128', "$salt$uName$pWord");
-    $query = "INSERT INTO userData VALUES('$fName', '$lName', '$uName', '$spWord', '$uType')";
+    $query = "INSERT INTO userData VALUES('$fName', '$lName', '$uName', '$spWord','$time','$time', '$uType')";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
 }

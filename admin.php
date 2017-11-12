@@ -87,6 +87,10 @@ print "
     </html>
 ";
 
+if (isset($_POST['sUsers']) && $_POST['sUsers'] == 'Show Registered Users') {
+    printAllUsers();
+}
+
 function printAllUsers()
 {
     $db_hostname = 'localhost';
