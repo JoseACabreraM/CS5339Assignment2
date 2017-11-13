@@ -2,10 +2,10 @@
 
 date_default_timezone_set('America/Denver');
 
-$db_hostname = 'localhost';
-$db_database = 'users';
-$db_username = 'JoseACabreraM';
-$db_password = 'Digamma1';
+$db_hostname = 'earth.cs.utep.edu';
+$db_database = 'jacabreramaynez';
+$db_username = 'jacabreramaynez';
+$db_password = 'UtEp!123';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 
@@ -13,20 +13,20 @@ if (isset($_POST['uName']) && isset($_POST['pWord'])) {
     $uName = mysqli_real_escape_string($connection, $_POST['uName']);
     $pWord = mysqli_real_escape_string($connection, $_POST['pWord']);
     if (existingUser($connection, $uName) && verifyUser($connection, $uName, $pWord)) {
-        header("Location:/mainpage.php");
+        header("Location:mainpage.php");
         exit();
     } else {
-        header("Location:/login.php?error=1");
+        header("Location:login.php?error=1");
         exit();
     }
 } else {
-    header("Location:/login.php?error=1");
+    header("Location:login.php?error=1");
     exit();
 }
 
 function existingUser($connection, $uName)
 {
-    $query = "SELECT * FROM userdata WHERE username= '$uName'";
+    $query = "SELECT * FROM userData WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
     elseif ($result->num_rows) {
@@ -41,7 +41,7 @@ function existingUser($connection, $uName)
 function verifyUser($connection, $uName, $pWord)
 {
     $time = date("Y-m-d H:i:s");
-    $query = "SELECT * FROM userdata WHERE username= '$uName'";
+    $query = "SELECT * FROM userData WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
     elseif ($result->num_rows) {

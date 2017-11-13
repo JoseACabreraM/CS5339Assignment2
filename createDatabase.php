@@ -2,10 +2,10 @@
 
 date_default_timezone_set('America/Denver');
 
-$db_hostname = 'localhost';
-$db_database = 'users';
-$db_username = 'JoseACabreraM';
-$db_password = 'Digamma1';
+$db_hostname = 'earth.cs.utep.edu';
+$db_database = 'jacabreramaynez';
+$db_username = 'jacabreramaynez';
+$db_password = 'UtEp!123';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 

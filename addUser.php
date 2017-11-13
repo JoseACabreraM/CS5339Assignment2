@@ -3,10 +3,10 @@
 date_default_timezone_set('America/Denver');
 session_start();
 
-$db_hostname = 'localhost';
-$db_database = 'users';
-$db_username = 'JoseACabreraM';
-$db_password = 'Digamma1';
+$db_hostname = 'earth.cs.utep.edu';
+$db_database = 'jacabreramaynez';
+$db_username = 'jacabreramaynez';
+$db_password = 'UtEp!123';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 print "                
@@ -43,11 +43,11 @@ if (isset($_POST['submission'])) {
                 addUser($connection, $fName, $lName, $uName, $pWord, 0, $salt);
             }
         } else {
-            header("Location:/addUser.php?error=2");
+            header("Location:addUser.php?error=2");
             exit();
         }
     } else {
-        header("Location:/addUser.php?error=1");
+        header("Location:addUser.php?error=1");
         exit();
     }
 } else {
@@ -62,7 +62,7 @@ if (isset($_POST['submission'])) {
                 <body style='background-color:lightgray;'>
                 <div align='center'><h1> Register User </h1></div>
                 <div align='center'>
-                    <form action='/addUser.php ' method='POST'>
+                    <form action='addUser.php ' method='POST'>
                         First name<br>
                         <input type='text' name='fName'>
                         <br> Last name<br>
@@ -129,7 +129,7 @@ function addUser($connection, $fName, $lName, $uName, $pWord, $uType, $salt)
 
 function existingUser($connection, $uName)
 {
-    $query = "SELECT * FROM userdata WHERE username= '$uName'";
+    $query = "SELECT * FROM userData WHERE username= '$uName'";
     $result = $connection->query($query);
     if (!$result) die($connection->error);
     elseif ($result->num_rows) {

@@ -26,7 +26,7 @@ if (isset($_SESSION['uName'])){
 } else {
     print "
         <div align='center'>
-        <form action='/retrieveUser.php' method='POST'>
+        <form action='retrieveUser.php' method='POST'>
             <br> Username<br>
             <input type='text' name='uName'>
             <br> Password<br>
