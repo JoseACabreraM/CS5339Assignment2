@@ -1,12 +1,8 @@
 <?php
 
+require_once 'credentials.php';
 date_default_timezone_set('America/Denver');
 session_start();
-
-$db_hostname = 'earth.cs.utep.edu';
-$db_database = 'jacabreramaynez';
-$db_username = 'jacabreramaynez';
-$db_password = 'UtEp!123';
 
 $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 print "                
@@ -32,10 +28,29 @@ if (isset($_POST['submission'])) {
                 <div align='center'><h1> Succesfully Added User! </h1></div>
                 <div align='center'>
                     <br>
+                    <form action='addUser.php'>   
+                    <button> Register Another User </button> 
+                    </form>
+                </div>
+                <div align='center'> 
+                    <br> 
+                    <form action='admin.php'> 
+                    <button> Admin Page </button> 
+                    </form> 
+                </div> 
+                <div align='center'> 
+                    <br> 
+                    <form action='user.php'> 
+                    <button> User Page </button> 
+                    </form> 
+                </div> 
+                <div align='center'>
+                    <br>
                     <form action='mainpage.php'>   
                     <button> Main Page </button> 
                     </form>
                 </div>
+                
             ";
             if ($uType == "nUser") {
                 addUser($connection, $fName, $lName, $uName, $pWord, 1, $salt);

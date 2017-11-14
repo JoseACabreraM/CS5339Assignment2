@@ -1,5 +1,6 @@
 <?php
 
+require_once 'credentials.php';
 session_start();
 
 print "
@@ -93,11 +94,7 @@ if (isset($_POST['sUsers']) && $_POST['sUsers'] == 'Show Registered Users') {
 
 function printAllUsers()
 {
-    $db_hostname = 'earth.cs.utep.edu';
-    $db_database = 'jacabreramaynez';
-    $db_username = 'jacabreramaynez';
-    $db_password = 'UtEp!123';
-
+    global $db_database, $db_hostname, $db_password, $db_username;
     $connection = new mysqli($db_hostname, $db_username, $db_password, $db_database);
     $query = "SELECT * FROM userData";
     $result = $connection->query($query);
